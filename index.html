@@ -261,20 +261,6 @@
             }
         }
 
-        /* Loading Spinner */
-        .loader-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(255, 140, 0, 0.2);
-            border-top-color: #ff8c00;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
         /* Badge */
         .badge-premium {
             background: linear-gradient(135deg, #ff8c00, #ff2e00);
@@ -368,17 +354,8 @@
 
     <div class="animated-bg"></div>
 
-    <!-- Loading Overlay -->
-    <div id="loaderOverlay" class="fixed inset-0 bg-[#0f0c29] bg-opacity-95 flex items-center justify-center z-50 transition-opacity duration-500">
-        <div class="text-center">
-            <div class="loader-spinner mx-auto mb-4"></div>
-            <p class="text-white text-lg font-semibold">Loading Premium Features...</p>
-            <p class="text-white/50 text-sm mt-2">Smart Money Pro</p>
-        </div>
-    </div>
-
     <!-- Main Container -->
-    <div id="appContainer" class="max-w-md mx-auto px-4 py-4 hidden">
+    <div id="appContainer" class="max-w-md mx-auto px-4 py-4">
         
         <!-- Header -->
         <header class="flex items-center justify-between mb-6 animate-fade-up">
@@ -694,7 +671,7 @@
     </div>
 
     <!-- Floating Support Button -->
-    <div id="supportBtn" class="support-float hidden" onclick="openSupportPage()">
+    <div id="supportBtn" class="support-float" onclick="openSupportPage()">
         <i class="fas fa-headset text-white text-xl"></i>
     </div>
 
@@ -720,7 +697,7 @@
             },
             adsgram: {
                 enabled: true,
-                blockId: "int-25417",  // 👈 Your AdsGram block ID here
+                blockId: "int-25417",
                 rewardAmount: 10
             },
             social: {
@@ -1070,12 +1047,8 @@
                 loadWithdrawalHistory();
                 updateJobButtons();
                 
-                document.getElementById('loaderOverlay').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('loaderOverlay').style.display = 'none';
-                    document.getElementById('appContainer').classList.remove('hidden');
-                    document.getElementById('supportBtn').classList.remove('hidden');
-                }, 500);
+                document.getElementById('appContainer').classList.remove('hidden');
+                document.getElementById('supportBtn').classList.remove('hidden');
             } catch(e) {
                 console.error(e);
                 showAlert("Error loading app");
@@ -1129,7 +1102,7 @@
             
             // Referral link
             const refLink = document.getElementById('referralLink');
-            if (refLink && currentUser) refLink.value = `https://t.me/${CONFIG.bot.username}?start=${currentUser.id}`;
+            if (refLink && currentUser) refLink.value = `https://t.me/smartmoneypro_bot?start=${currentUser.id}`;
             document.getElementById('copyReferralBtn')?.addEventListener('click', () => {
                 const link = document.getElementById('referralLink');
                 link.select();
