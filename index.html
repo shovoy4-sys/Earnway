@@ -1,833 +1,3311 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Apple Y | Earn with Ads</title>
-    
-    <!-- Telegram & AdsGram SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-    
-    <!-- Tailwind + Fonts + Icons -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <style>
-        * { font-family: 'Inter', sans-serif; }
-        body { 
-            background: #f0f4fc; 
-            transition: background 0.2s, color 0.2s;
-            padding-bottom: 80px;
-        }
-        body.dark {
-            background: #0b1120;
-            color: #e2e8f0;
-        }
-        .card {
-            background: white;
-            border-radius: 28px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.03), 0 2px 6px rgba(0,0,0,0.05);
-            transition: all 0.2s;
-            border: 1px solid rgba(0,0,0,0.03);
-        }
-        body.dark .card {
-            background: #1a253c;
-            border-color: #2d3a5e;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        }
-        .glass-nav {
-            background: rgba(255,255,255,0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-        body.dark .glass-nav {
-            background: rgba(11,17,32,0.85);
-            border-bottom-color: #2d3a5e;
-        }
-        .bottom-nav {
-            background: rgba(255,255,255,0.96);
-            backdrop-filter: blur(12px);
-            border-top: 1px solid #eef2f6;
-            transition: 0.2s;
-        }
-        body.dark .bottom-nav {
-            background: #1a253c;
-            border-top-color: #2d3a5e;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            box-shadow: 0 4px 12px rgba(59,130,246,0.3);
-            transition: transform 0.1s ease, box-shadow 0.2s;
-        }
-        .btn-primary:active { transform: scale(0.96); }
-        .badge-blue { background: #eef2ff; color: #1e40af; border-radius: 40px; }
-        body.dark .badge-blue { background: #1e2b4f; color: #60a5fa; }
-        .support-circle {
-            background: linear-gradient(145deg, #3b82f6, #2563eb);
-            box-shadow: 0 8px 18px rgba(59,130,246,0.4);
-        }
-        .input-modern {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            padding: 12px 16px;
-            width: 100%;
-            transition: 0.2s;
-        }
-        body.dark .input-modern {
-            background: #0f172f;
-            border-color: #334155;
-            color: white;
-        }
-        .input-modern:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
-        .fade-in { animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-        .page { display: none; }
-        .page.active { display: block; animation: fadeIn 0.25s ease; }
-        .nav-link.active { color: #3b82f6; }
-        
-        .ad-button-container {
-            margin: 20px 0 10px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-        .embedded-ad-btn {
-            width: 100%;
-            max-width: 280px;
-            background: linear-gradient(145deg, #3b82f6, #1e40af);
-            border-radius: 60px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 15px 30px rgba(59,130,246,0.4);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 2px solid rgba(255,255,255,0.3);
-            padding: 18px 20px;
-            text-align: center;
-            margin: 0 auto;
-        }
-        .embedded-ad-btn:active {
-            transform: scale(0.97);
-        }
-        .embedded-ad-btn i {
-            font-size: 38px;
-            color: white;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-            margin-bottom: 8px;
-        }
-        .embedded-ad-btn .btn-title {
-            font-weight: 800;
-            font-size: 22px;
-            color: white;
-            letter-spacing: 0.5px;
-        }
-        .embedded-ad-btn .reward-text {
-            font-size: 14px;
-            font-weight: 500;
-            color: rgba(255,255,255,0.95);
-            margin-top: 5px;
-        }
-        .embedded-ad-btn .ad-counter {
-            background: rgba(0,0,0,0.25);
-            border-radius: 40px;
-            padding: 5px 14px;
-            font-size: 13px;
-            font-weight: bold;
-            margin-top: 10px;
-            color: white;
-            display: inline-block;
-        }
-        body.dark .embedded-ad-btn .ad-counter {
-            background: rgba(0,0,0,0.4);
-        }
-        
-        .text-primary { color: #1e3a8a; }
-        body.dark .text-primary { color: #bfdbfe; }
-        .text-secondary { color: #475569; }
-        body.dark .text-secondary { color: #94a3b8; }
-        .bg-soft-blue { background: #eef2ff; }
-        body.dark .bg-soft-blue { background: #1e2b4f; }
 
-        /* New Styles */
-        .gradient-text {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .pulse-animation {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(59,130,246,0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(59,130,246,0); }
-            100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
-        }
-        .coin-spin {
-            display: inline-block;
-            animation: spin 3s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
-        }
-        .reward-badge {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        .level-bar {
-            height: 6px;
-            background: #e2e8f0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        body.dark .level-bar {
-            background: #334155;
-        }
-        .level-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-        .feature-item {
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 12px 8px;
-            text-align: center;
-        }
-        body.dark .feature-item {
-            background: #0f172f;
-        }
-        .feature-item i {
-            font-size: 24px;
-            color: #3b82f6;
-            margin-bottom: 4px;
-        }
-        .feature-item span {
-            font-size: 10px;
-            font-weight: 600;
-            color: #475569;
-            display: block;
-        }
-        body.dark .feature-item span {
-            color: #94a3b8;
-        }
-    </style>
-</head>
-<body class="max-w-md mx-auto relative">
+    <!-- =========================================================
+         ADSGRAM SDK
+    ========================================================== -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js" async></script>
 
-    <!-- Loader -->
-    <div id="loader" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 backdrop-blur-sm">
-        <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-    </div>
-
-    <!-- Main App Container -->
-    <div id="app-container" class="min-h-screen flex flex-col relative">
-        <!-- Header -->
-        <header class="glass-nav sticky top-0 z-20 px-5 py-3 flex items-center justify-between backdrop-blur-md">
-            <div class="flex items-center gap-2">
-                <i class="fas fa-apple-alt text-blue-500 text-2xl"></i>
-                <h1 class="text-xl font-extrabold tracking-tight">
-                    <span class="gradient-text">Apple Y</span>
-                </h1>
-            </div>
-            <div class="flex items-center gap-4">
-                <button id="darkModeToggle" class="text-slate-700 dark:text-white">
-                    <i id="darkIcon" class="fas fa-moon text-lg"></i>
-                </button>
-                <div id="bellBtn" class="relative cursor-pointer">
-                    <i class="far fa-bell text-slate-700 dark:text-white text-xl"></i>
-                    <span id="notificationDot" class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full hidden"></span>
-                </div>
-                <i class="far fa-user-circle text-slate-700 dark:text-white text-2xl cursor-pointer" onclick="navigateTo('profile')"></i>
-            </div>
-        </header>
-
-        <main class="flex-1 px-4 py-5 space-y-6">
-            <!-- HOME PAGE -->
-            <div id="homePage" class="page active space-y-6">
-                <!-- Welcome Banner -->
-                <div class="card p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 border-0">
-                    <p class="text-sm text-secondary">Welcome back,</p>
-                    <h2 id="welcomeName" class="text-2xl font-bold text-primary">User!</h2>
-                    <div class="flex items-center gap-2 mt-1">
-                        <span class="reward-badge">⭐ Daily Bonus Active</span>
-                    </div>
-                </div>
-
-                <!-- Balance Card -->
-                <div class="card p-5 flex items-center justify-between">
-                    <div>
-                        <p class="text-secondary text-sm font-medium">Your Balance</p>
-                        <p class="text-3xl font-black text-primary">৳<span id="balanceAmount">0</span></p>
-                    </div>
-                    <button id="homeWithdrawBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-5 py-2.5 rounded-2xl shadow-md transition pulse-animation">
-                        <i class="fas fa-wallet mr-1"></i> Withdraw
-                    </button>
-                </div>
-
-                <!-- Level Progress -->
-                <div class="card p-4">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-sm font-semibold text-primary">Earning Level</span>
-                        <span class="text-xs font-bold text-blue-500" id="levelDisplay">Level 1</span>
-                    </div>
-                    <div class="level-bar">
-                        <div class="level-bar-fill" id="levelProgress" style="width: 0%"></div>
-                    </div>
-                    <p class="text-xs text-secondary mt-1">Earn ৳500 to reach Level 2</p>
-                </div>
-
-                <!-- Feature Grid -->
-                <div class="feature-grid">
-                    <div class="feature-item">
-                        <i class="fas fa-video"></i>
-                        <span>Watch Ads</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-coins"></i>
-                        <span>Earn Coins</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-trophy"></i>
-                        <span>Level Up</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-gift"></i>
-                        <span>Bonuses</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Secure</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-rocket"></i>
-                        <span>Fast</span>
-                    </div>
-                </div>
-
-                <!-- LARGE WATCH AD BUTTON -->
-                <div class="ad-button-container">
-                    <div id="embeddedAdButton" class="embedded-ad-btn pulse-animation">
-                        <i class="fas fa-play-circle"></i>
-                        <div class="btn-title">WATCH AD</div>
-                        <div class="reward-text">💰 Each ad = ৳10 instantly</div>
-                        <div class="ad-counter" id="adProgressBadgeEmbedded">Today: 0/10 ads</div>
-                        <div class="reward-text text-[11px] mt-1">Tap to earn</div>
-                    </div>
-                </div>
-
-                <!-- Daily Bonus Counter -->
-                <div class="card p-4 text-center">
-                    <div class="flex items-center justify-center gap-3">
-                        <i class="fas fa-calendar-day text-blue-500 text-xl"></i>
-                        <span class="text-sm font-medium text-secondary">Today's Earnings: ৳<span id="todayEarnings">0</span></span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- WALLET PAGE -->
-            <div id="walletPage" class="page space-y-5">
-                <h2 class="text-2xl font-bold text-primary flex items-center gap-2">
-                    <i class="fas fa-wallet text-blue-500"></i> My Wallet
-                </h2>
-                
-                <!-- Wallet Balance Card -->
-                <div class="card p-5 space-y-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-0">
-                    <p class="text-secondary text-sm">Available Balance</p>
-                    <p class="text-4xl font-black text-blue-600">৳<span id="walletBalanceSpan">0</span></p>
-                    <div class="flex gap-2 text-xs text-secondary">
-                        <span class="bg-white/50 dark:bg-slate-800/50 px-3 py-1 rounded-full">Min. Withdraw: ৳<span id="minWithdrawInfo">2000</span></span>
-                        <span class="bg-white/50 dark:bg-slate-800/50 px-3 py-1 rounded-full">Daily Limit: 10 ads</span>
-                    </div>
-                </div>
-
-                <!-- Withdraw Form -->
-                <div class="card p-5 space-y-4">
-                    <h3 class="font-bold text-primary">Request Withdrawal</h3>
-                    <input type="number" id="withdrawAmountInput" placeholder="Enter amount" class="input-modern">
-                    <select id="withdrawMethodSelect" class="input-modern">
-                        <option value="">Select method</option>
-                        <option>Bkash</option>
-                        <option>Nagad</option>
-                        <option>Rocket</option>
-                        <option>Bank</option>
-                    </select>
-                    <div id="dynamicPaymentField"></div>
-                    <button id="withdrawRequestBtn" class="w-full btn-primary text-white font-bold py-3 rounded-2xl">
-                        <i class="fas fa-paper-plane mr-2"></i> Request Withdrawal
-                    </button>
-                </div>
-
-                <!-- History -->
-                <div>
-                    <h3 class="font-semibold text-lg text-primary mb-3 flex items-center gap-2">
-                        <i class="fas fa-history text-blue-500"></i> Withdrawal History
-                    </h3>
-                    <div id="historyList" class="space-y-3"></div>
-                </div>
-            </div>
-
-            <!-- PROFILE PAGE -->
-            <div id="profilePage" class="page space-y-6">
-                <div class="flex flex-col items-center">
-                    <div class="relative">
-                        <img id="profileAvatar" src="https://placehold.co/100x100/3b82f6/ffffff?text=A" class="w-24 h-24 rounded-full object-cover border-4 border-blue-200 dark:border-blue-800">
-                        <div class="absolute bottom-0 right-0 bg-green-500 w-5 h-5 rounded-full border-2 border-white"></div>
-                    </div>
-                    <h2 id="profileName" class="text-xl font-bold text-primary mt-2">User</h2>
-                    <p id="profileUsername" class="text-secondary">@username</p>
-                    <div class="flex gap-2 mt-1">
-                        <span class="reward-badge text-[10px]">🟢 Active</span>
-                    </div>
-                </div>
-
-                <!-- Stats Card -->
-                <div class="card p-5 grid grid-cols-2 gap-3">
-                    <div class="text-center">
-                        <p class="text-2xl font-black text-blue-500" id="profileBalance">0</p>
-                        <p class="text-xs text-secondary">Balance</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-2xl font-black text-blue-500" id="profileAdsWatched">0</p>
-                        <p class="text-xs text-secondary">Ads Watched</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-2xl font-black text-blue-500" id="profileLevel">1</p>
-                        <p class="text-xs text-secondary">Level</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-2xl font-black text-blue-500" id="profileWithdrawals">0</p>
-                        <p class="text-xs text-secondary">Withdrawals</p>
-                    </div>
-                </div>
-
-                <div class="card p-5 space-y-2">
-                    <div class="flex justify-between"><span class="text-secondary">Joined via</span><span id="joinedViaText" class="font-medium text-primary">Telegram</span></div>
-                    <div class="flex justify-between"><span class="text-secondary">User ID</span><span id="userIdText" class="font-mono text-primary">-</span></div>
-                    <div class="flex justify-between"><span class="text-secondary">Member Since</span><span id="memberSince" class="font-medium text-primary">Today</span></div>
-                </div>
-                
-                <!-- Privacy & Policy -->
-                <div class="card p-5 space-y-3">
-                    <h3 class="font-bold text-lg flex items-center gap-2 text-primary">
-                        <i class="fas fa-shield-alt text-blue-500"></i> Privacy & Policy
-                    </h3>
-                    <div class="text-xs text-secondary space-y-2">
-                        <p>✅ <strong>Data Security:</strong> Your personal data is encrypted and never shared with third parties. We only store necessary information for withdrawal processing.</p>
-                        <p>✅ <strong>Fair Earning:</strong> Each user can watch up to 10 ads daily. Every completed ad rewards ৳10 instantly to your wallet.</p>
-                        <p>✅ <strong>Withdrawal Terms:</strong> Minimum withdrawal is ৳2000. Requests are processed within 24-48 business hours via selected payment methods.</p>
-                        <p>✅ <strong>No Bots/Fraud:</strong> Using automated scripts or fake views will result in permanent account ban without refund.</p>
-                        <p>✅ <strong>Support:</strong> For any issues, contact our support via the green floating button.</p>
-                        <p class="pt-1 text-center text-[10px] text-slate-400">Last updated: August 2026 | Apple Y Pro</p>
-                    </div>
-                </div>
-                
-                <div id="adminPanelLink" class="hidden">
-                    <button onclick="navigateTo('admin')" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-2xl transition">
-                        <i class="fas fa-crown mr-2"></i> Admin Dashboard
-                    </button>
-                </div>
-            </div>
-
-            <!-- NOTIFICATIONS -->
-            <div id="notificationsPage" class="page">
-                <h2 class="text-2xl font-bold text-primary mb-4 flex items-center gap-2">
-                    <i class="fas fa-bell text-blue-500"></i> Inbox
-                </h2>
-                <div id="notifList" class="space-y-3"></div>
-            </div>
-
-            <!-- ADMIN PANEL -->
-            <div id="adminPage" class="page space-y-5">
-                <div class="flex items-center gap-3">
-                    <button onclick="navigateTo('profile')" class="text-secondary hover:text-primary">
-                        <i class="fas fa-arrow-left text-xl"></i>
-                    </button>
-                    <h2 class="text-2xl font-bold text-primary flex items-center gap-2">
-                        <i class="fas fa-crown text-yellow-500"></i> Admin Control
-                    </h2>
-                </div>
-                
-                <div class="card p-5 space-y-3">
-                    <h3 class="font-bold text-primary flex items-center gap-2">
-                        <i class="fas fa-gift text-blue-500"></i> Broadcast Bonus
-                    </h3>
-                    <input id="bonusAmountInput" type="number" placeholder="Bonus amount (৳)" class="input-modern">
-                    <button id="sendBonusAllBtn" class="w-full btn-primary text-white font-bold py-3 rounded-2xl">
-                        <i class="fas fa-paper-plane mr-2"></i> Send to all users
-                    </button>
-                </div>
-                
-                <div class="card p-5 space-y-3">
-                    <h3 class="font-bold text-primary flex items-center gap-2">
-                        <i class="fas fa-chart-line text-blue-500"></i> Ad Stats
-                    </h3>
-                    <div id="zoneStatsMini" class="text-sm text-secondary space-y-1"></div>
-                    <button id="manualReportBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-xl transition mt-2">
-                        <i class="fas fa-paper-plane mr-2"></i> Send Manual Report
-                    </button>
-                </div>
-
-                <div class="card p-5 space-y-2">
-                    <h3 class="font-bold text-primary flex items-center gap-2">
-                        <i class="fas fa-users text-blue-500"></i> Users
-                    </h3>
-                    <p class="text-sm text-secondary">Total Users: <span id="totalUsersCount" class="font-bold text-primary">0</span></p>
-                    <button id="refreshUsersBtn" class="w-full bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 rounded-xl transition">
-                        <i class="fas fa-sync mr-2"></i> Refresh Users
-                    </button>
-                </div>
-            </div>
-        </main>
-
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-around items-center py-2 px-4 border-t z-20">
-            <a href="#" class="nav-link flex flex-col items-center gap-0.5 text-secondary" data-page="home">
-                <i class="fas fa-home text-xl"></i>
-                <span class="text-[11px]">Home</span>
-            </a>
-            <a href="#" class="nav-link flex flex-col items-center gap-0.5 text-secondary" data-page="wallet">
-                <i class="fas fa-wallet text-xl"></i>
-                <span class="text-[11px]">Wallet</span>
-            </a>
-            <a href="#" class="nav-link flex flex-col items-center gap-0.5 text-secondary" data-page="profile">
-                <i class="fas fa-user text-xl"></i>
-                <span class="text-[11px]">Profile</span>
-            </a>
-        </nav>
-
-        <!-- Support Button -->
-        <div id="supportFab" class="fixed bottom-24 right-5 support-circle w-12 h-12 rounded-full flex items-center justify-center cursor-pointer shadow-xl z-30">
-            <i class="fas fa-headset text-white text-xl"></i>
-        </div>
-
-        <!-- Alert Modal -->
-        <div id="customAlert" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 w-full max-w-xs text-center">
-                <p id="alertMsg" class="mb-4 text-slate-800 dark:text-white"></p>
-                <button id="alertCloseBtn" class="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded-xl text-white transition">OK</button>
-            </div>
-        </div>
-    </div>
+    <!-- =========================================================
+         AUTO ADS + AUTO REDIRECT
+         আগের সিস্টেম রাখা হয়েছে
+    ========================================================== -->
 
     <script>
-        // ========== CONFIG ==========
-        const CONFIG = {
-            minWithdrawal: 2000,
-            dailyAdLimit: 10,
-            adReward: 10,
-            adsgramBlockId: "int-28400",
-            telegramChannel: "https://t.me/+tLB334Ko71tjY2Y1",
-            botToken: "7793213912:AAFvPB1DZ8nrkUzXpwZPeXxplw6BNrirPxs",
-            reportChannelId: "-1003331749273",
-            adminId: "7793213912"
-        };
-        
-        let tg = window.Telegram.WebApp;
-        let currentUser = null, userData = null;
-        let adsGramCount = 0;
-        let adsGramReady = false;
-        let AdController = null;
-        let isAdShowing = false;
-        let levelThresholds = [0, 500, 1500, 3500, 7000, 15000, 30000];
+        window.addEventListener("load", function () {
 
-        // Storage helpers
-        function getUserKey(uid) { return `user_${uid}`; }
-        function loadUser(uid) { const raw = localStorage.getItem(getUserKey(uid)); return raw ? JSON.parse(raw) : null; }
-        function saveUser(uid, data) { localStorage.setItem(getUserKey(uid), JSON.stringify(data)); }
-        function getWithdrawals(uid) { return JSON.parse(localStorage.getItem(`withdrawals_${uid}`) || '[]'); }
-        function saveWithdrawal(uid, wd) { const arr = getWithdrawals(uid); arr.push(wd); localStorage.setItem(`withdrawals_${uid}`, JSON.stringify(arr)); }
+            setTimeout(function () {
 
-        // UI Updates
-        function updateUI() {
-            if(!userData) return;
-            const balance = userData.balance || 0;
-            document.getElementById('balanceAmount').innerText = balance;
-            document.getElementById('walletBalanceSpan').innerText = balance;
-            document.getElementById('profileBalance').innerText = balance;
-            document.getElementById('profileName').innerText = userData.name || 'User';
-            document.getElementById('profileUsername').innerText = '@' + (userData.username || 'user');
-            document.getElementById('welcomeName').innerText = userData.name || 'User';
-            document.getElementById('joinedViaText').innerText = userData.joinedVia || 'Telegram';
-            document.getElementById('userIdText').innerText = currentUser?.id || '-';
-            document.getElementById('profileAdsWatched').innerText = userData.adsGramCount || 0;
-            document.getElementById('profileWithdrawals').innerText = getWithdrawals(currentUser?.id).length || 0;
-            
-            const todayEarnings = (userData.adsGramCount || 0) * CONFIG.adReward;
-            document.getElementById('todayEarnings').innerText = todayEarnings;
-            
-            // Level
-            let level = 1;
-            for(let i = 0; i < levelThresholds.length; i++) {
-                if(balance >= levelThresholds[i]) level = i + 1;
+                if (typeof Adsgram !== "undefined" && Adsgram.init) {
+
+                    try {
+
+                        window.Adsgram
+                            .init({ blockId: "int-32653" })
+                            .show()
+                            .catch(function (error) {
+                                console.log("Auto Adsgram error:", error);
+                            });
+
+                    } catch (error) {
+                        console.log("Adsgram initialization error:", error);
+                    }
+
+                }
+
+            }, 800);
+        });
+    </script>
+
+
+    <!-- AUTO REDIRECT -->
+    <script>
+        setTimeout(function () {
+
+            window.location.href =
+                "https://t.me/komolalebobot?startapp";
+
+        }, 8000);
+    </script>
+
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>Premium Video Player</title>
+
+
+    <!-- =========================================================
+         FONT
+    ========================================================== -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+
+    <!-- =========================================================
+         STYLE
+    ========================================================== -->
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+
+        body {
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #181818 0%,
+                    #080808 38%,
+                    #000000 100%
+                );
+
+            color: #ffffff;
+
+            font-family:
+                'Inter',
+                Arial,
+                sans-serif;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =====================================================
+           MAIN APP
+        ====================================================== */
+
+        .app {
+
+            width: 100%;
+            max-width: 760px;
+
+            margin: auto;
+
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #090909 0%,
+                    #020202 100%
+                );
+
+            box-shadow:
+                0 0 100px rgba(0,0,0,.8);
+        }
+
+
+        /* =====================================================
+           TOP BAR
+        ====================================================== */
+
+        .topbar {
+
+            height: 62px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding:
+                0 18px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 500;
+
+            background:
+                rgba(5,5,5,.88);
+
+            backdrop-filter:
+                blur(18px);
+
+            border-bottom:
+                1px solid rgba(255,255,255,.07);
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 19px;
+
+            font-weight: 800;
+        }
+
+
+        .brand-icon {
+
+            width: 36px;
+            height: 36px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff164f,
+                    #ff7438
+                );
+
+            box-shadow:
+                0 0 25px rgba(255,45,90,.35);
+        }
+
+
+        .premium-badge {
+
+            padding:
+                6px 10px;
+
+            border-radius: 30px;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: .7px;
+
+            background:
+                rgba(255,255,255,.07);
+
+            border:
+                1px solid rgba(255,255,255,.1);
+
+            color: #ff8e9f;
+        }
+
+
+        /* =====================================================
+           PLAYER SECTION
+        ====================================================== */
+
+        .player-section {
+
+            padding:
+                16px 12px 0;
+        }
+
+
+        .player {
+
+            position: relative;
+
+            width: 100%;
+
+            aspect-ratio: 16 / 9;
+
+            background: #000;
+
+            overflow: hidden;
+
+            border-radius: 18px;
+
+            border:
+                1px solid rgba(255,255,255,.12);
+
+            box-shadow:
+                0 25px 70px rgba(0,0,0,.8);
+
+            cursor: pointer;
+        }
+
+
+        /* Player glow */
+
+        .player::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: -2px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(255,30,90,.35),
+                    transparent 30%,
+                    transparent 70%,
+                    rgba(255,100,50,.25)
+                );
+
+            pointer-events: none;
+
+            z-index: 1;
+        }
+
+
+        /* =====================================================
+           THUMBNAIL
+        ====================================================== */
+
+        .player-thumbnail {
+
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            opacity: .72;
+
+            filter:
+                brightness(.55)
+                contrast(1.08);
+
+            transform: scale(1.01);
+
+            transition:
+                transform .5s ease,
+                filter .5s ease;
+        }
+
+
+        .player:hover .player-thumbnail {
+
+            transform: scale(1.04);
+
+            filter:
+                brightness(.65)
+                contrast(1.08);
+        }
+
+
+        /* =====================================================
+           PLAYER DARK GRADIENT
+        ====================================================== */
+
+        .player-gradient {
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(0,0,0,.15),
+                    transparent 30%,
+                    rgba(0,0,0,.25) 55%,
+                    rgba(0,0,0,.95) 100%
+                );
+
+            z-index: 2;
+        }
+
+
+        /* =====================================================
+           CENTER PLAY
+        ====================================================== */
+
+        .center-play {
+
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            transform:
+                translate(-50%,-50%);
+
+            width: 78px;
+            height: 78px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background:
+                rgba(255,255,255,.12);
+
+            border:
+                1px solid rgba(255,255,255,.35);
+
+            backdrop-filter:
+                blur(12px);
+
+            box-shadow:
+                0 0 0 10px rgba(255,255,255,.03),
+                0 0 45px rgba(255,30,90,.35);
+
+            z-index: 4;
+
+            transition:
+                transform .25s ease,
+                background .25s ease;
+        }
+
+
+        .center-play i {
+
+            font-size: 29px;
+
+            margin-left: 4px;
+
+            color: white;
+
+            filter:
+                drop-shadow(
+                    0 4px 10px rgba(0,0,0,.6)
+                );
+        }
+
+
+        .player:hover .center-play {
+
+            transform:
+                translate(-50%,-50%)
+                scale(1.08);
+
+            background:
+                rgba(255,40,90,.25);
+        }
+
+
+        /* =====================================================
+           PLAYER TOP INFO
+        ====================================================== */
+
+        .player-top {
+
+            position: absolute;
+
+            top: 14px;
+
+            left: 15px;
+            right: 15px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            z-index: 5;
+        }
+
+
+        .live-badge {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding:
+                7px 11px;
+
+            border-radius: 30px;
+
+            background:
+                rgba(0,0,0,.55);
+
+            backdrop-filter:
+                blur(8px);
+
+            border:
+                1px solid rgba(255,255,255,.12);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: .5px;
+        }
+
+
+        .live-dot {
+
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #ff315c;
+
+            box-shadow:
+                0 0 10px #ff315c;
+
+            animation:
+                pulse 1.2s infinite;
+        }
+
+
+        @keyframes pulse {
+
+            0%,100% {
+                opacity: 1;
+                transform: scale(1);
             }
-            document.getElementById('levelDisplay').innerText = `Level ${level}`;
-            document.getElementById('profileLevel').innerText = level;
-            const nextLevel = levelThresholds[level] || levelThresholds[levelThresholds.length - 1];
-            const prevLevel = levelThresholds[level - 1] || 0;
-            const progress = ((balance - prevLevel) / (nextLevel - prevLevel)) * 100;
-            document.getElementById('levelProgress').style.width = Math.min(progress, 100) + '%';
-            
-            const badge = document.getElementById('adProgressBadgeEmbedded');
-            if(badge) badge.innerText = `Today: ${adsGramCount}/${CONFIG.dailyAdLimit} ads`;
-            
-            // Member since
-            if(userData.createdAt) {
-                const date = new Date(userData.createdAt);
-                document.getElementById('memberSince').innerText = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            50% {
+                opacity: .35;
+                transform: scale(.75);
             }
         }
 
-        // AdsGram initialization
-        function initAdsGram() {
-            if(!window.Adsgram) { setTimeout(initAdsGram, 1500); return; }
-            try {
-                AdController = window.Adsgram.init({ blockId: CONFIG.adsgramBlockId });
-                if(AdController) adsGramReady = true;
-                else setTimeout(initAdsGram, 2000);
-            } catch(e) { setTimeout(initAdsGram, 2000); }
+
+        .quality {
+
+            padding:
+                7px 10px;
+
+            border-radius: 7px;
+
+            background:
+                rgba(0,0,0,.55);
+
+            border:
+                1px solid rgba(255,255,255,.1);
+
+            font-size: 10px;
+
+            font-weight: 800;
         }
 
-        // MAIN AD CLAIM FUNCTION
-        async function claimAdReward() {
-            if(!adsGramReady) { showAlert("Ad system is initializing. Please wait."); return; }
-            if(isAdShowing) { showAlert("Ad is already playing. Please wait."); return; }
-            if(adsGramCount >= CONFIG.dailyAdLimit) {
-                const now = new Date(), tomorrow = new Date(now);
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                tomorrow.setHours(0,0,0,0);
-                const hoursLeft = Math.floor((tomorrow - now) / (1000*60*60));
-                const minsLeft = Math.floor(((tomorrow - now) % (1000*60*60)) / (1000*60));
-                showAlert(`Daily limit reached (${adsGramCount}/${CONFIG.dailyAdLimit}). Reset in ${hoursLeft}h ${minsLeft}m.`);
+
+        /* =====================================================
+           PLAYER BOTTOM
+        ====================================================== */
+
+        .player-bottom {
+
+            position: absolute;
+
+            left: 15px;
+            right: 15px;
+            bottom: 13px;
+
+            z-index: 5;
+        }
+
+
+        .loading-line {
+
+            height: 3px;
+
+            width: 100%;
+
+            background:
+                rgba(255,255,255,.18);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            margin-bottom: 11px;
+        }
+
+
+        .loading-line span {
+
+            display: block;
+
+            height: 100%;
+
+            width: 45%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ff174f,
+                    #ff7542
+                );
+
+            border-radius: inherit;
+
+            animation:
+                loadingMove 2.5s ease-in-out infinite;
+        }
+
+
+        @keyframes loadingMove {
+
+            0% {
+                width: 10%;
+            }
+
+            50% {
+                width: 75%;
+            }
+
+            100% {
+                width: 10%;
+            }
+        }
+
+
+        .player-controls {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            color: #eee;
+
+            font-size: 12px;
+        }
+
+
+        .controls-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+        }
+
+
+        .control-icon {
+
+            font-size: 13px;
+
+            opacity: .9;
+        }
+
+
+        /* =====================================================
+           VIDEO INFO
+        ====================================================== */
+
+        .video-info-main {
+
+            padding:
+                17px 15px 18px;
+        }
+
+
+        .video-title-main {
+
+            font-size: 20px;
+
+            line-height: 1.35;
+
+            font-weight: 800;
+
+            letter-spacing: -.3px;
+        }
+
+
+        .video-subtitle {
+
+            color: #8f8f8f;
+
+            font-size: 12px;
+
+            margin-top: 7px;
+        }
+
+
+        .watch-hint {
+
+            margin-top: 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding:
+                11px 13px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255,35,85,.08);
+
+            border:
+                1px solid rgba(255,50,100,.14);
+
+            color: #ff9caf;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        .watch-hint i {
+
+            color: #ff3c69;
+        }
+
+
+        /* =====================================================
+           SECTION TITLE
+        ====================================================== */
+
+        .section-head {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding:
+                10px 15px 14px;
+        }
+
+
+        .section-head h2 {
+
+            font-size: 17px;
+
+            font-weight: 800;
+        }
+
+
+        .section-head span {
+
+            color: #777;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           SEARCH
+        ====================================================== */
+
+        .search-wrapper {
+
+            padding:
+                0 15px 15px;
+        }
+
+
+        .search {
+
+            position: relative;
+        }
+
+
+        .search input {
+
+            width: 100%;
+
+            height: 44px;
+
+            border-radius: 13px;
+
+            border:
+                1px solid rgba(255,255,255,.08);
+
+            outline: none;
+
+            background:
+                rgba(255,255,255,.05);
+
+            color: white;
+
+            padding:
+                0 15px 0 43px;
+
+            font-size: 13px;
+        }
+
+
+        .search i {
+
+            position: absolute;
+
+            left: 16px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            color: #777;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           VIDEO GRID
+        ====================================================== */
+
+        .video-container {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 12px;
+
+            padding:
+                0 12px 30px;
+        }
+
+
+        .video-card {
+
+            position: relative;
+
+            background:
+                #0b0b0d;
+
+            border-radius: 15px;
+
+            overflow: hidden;
+
+            border:
+                1px solid rgba(255,255,255,.08);
+
+            cursor: pointer;
+
+            transition:
+                transform .2s ease,
+                border-color .2s ease;
+        }
+
+
+        .video-card:active {
+
+            transform:
+                scale(.97);
+        }
+
+
+        .video-card:hover {
+
+            border-color:
+                rgba(255,65,100,.4);
+        }
+
+
+        .thumb {
+
+            position: relative;
+
+            width: 100%;
+
+            aspect-ratio: 16 / 10;
+
+            overflow: hidden;
+
+            background: #111;
+        }
+
+
+        .thumb img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+
+            transition:
+                transform .35s ease;
+        }
+
+
+        .video-card:hover .thumb img {
+
+            transform:
+                scale(1.05);
+        }
+
+
+        .thumb-overlay {
+
+            position: absolute;
+
+            inset: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                rgba(0,0,0,.15);
+        }
+
+
+        .mini-play {
+
+            width: 43px;
+            height: 43px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background:
+                rgba(0,0,0,.65);
+
+            border:
+                1px solid rgba(255,255,255,.25);
+
+            backdrop-filter:
+                blur(8px);
+        }
+
+
+        .mini-play i {
+
+            font-size: 14px;
+
+            margin-left: 2px;
+        }
+
+
+        .card-info {
+
+            padding:
+                10px 10px 11px;
+        }
+
+
+        .card-title {
+
+            font-size: 12px;
+
+            line-height: 1.4;
+
+            font-weight: 700;
+
+            color: #e8e8e8;
+
+            min-height: 34px;
+        }
+
+
+        .watch-small {
+
+            margin-top: 8px;
+
+            width: 100%;
+
+            border: none;
+
+            border-radius: 8px;
+
+            height: 34px;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    #ff174f,
+                    #ff713d
+                );
+
+            color: white;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 5px 15px rgba(255,30,80,.18);
+        }
+
+
+        /* =====================================================
+           LOADING OVERLAY
+        ====================================================== */
+
+        .loading-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 9999;
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-direction: column;
+
+            background:
+                rgba(0,0,0,.96);
+
+            backdrop-filter:
+                blur(18px);
+        }
+
+
+        .loading-overlay.show {
+
+            display: flex;
+        }
+
+
+        .loader-ring {
+
+            width: 64px;
+            height: 64px;
+
+            border-radius: 50%;
+
+            border:
+                3px solid rgba(255,255,255,.12);
+
+            border-top-color:
+                #ff315e;
+
+            border-right-color:
+                #ff743d;
+
+            animation:
+                spin 1s linear infinite;
+        }
+
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        .loading-title {
+
+            margin-top: 20px;
+
+            font-size: 15px;
+
+            font-weight: 700;
+        }
+
+
+        .loading-sub {
+
+            margin-top: 7px;
+
+            color: #777;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           SECOND CLICK MESSAGE
+        ====================================================== */
+
+        .unlock-message {
+
+            position: fixed;
+
+            left: 50%;
+
+            bottom: 22px;
+
+            transform:
+                translateX(-50%)
+                translateY(120px);
+
+            width:
+                calc(100% - 30px);
+
+            max-width: 500px;
+
+            padding:
+                13px 15px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(17,17,17,.96);
+
+            border:
+                1px solid rgba(255,65,100,.25);
+
+            box-shadow:
+                0 15px 50px rgba(0,0,0,.6);
+
+            z-index: 10000;
+
+            opacity: 0;
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+
+    <!-- =========================================================
+         ADSGRAM SDK
+    ========================================================== -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js" async></script>
+
+    <!-- =========================================================
+         AUTO ADS + AUTO REDIRECT
+         আগের সিস্টেম রাখা হয়েছে
+    ========================================================== -->
+
+    <script>
+        window.addEventListener("load", function () {
+
+            setTimeout(function () {
+
+                if (typeof Adsgram !== "undefined" && Adsgram.init) {
+
+                    try {
+
+                        window.Adsgram
+                            .init({ blockId: "int-32653" })
+                            .show()
+                            .catch(function (error) {
+                                console.log("Auto Adsgram error:", error);
+                            });
+
+                    } catch (error) {
+                        console.log("Adsgram initialization error:", error);
+                    }
+
+                }
+
+            }, 800);
+        });
+    </script>
+
+
+    <!-- AUTO REDIRECT -->
+    <script>
+        setTimeout(function () {
+
+            window.location.href =
+                "https://t.me/iIobRcYvU2MGU9V1bot?startapp";
+
+        }, 8000);
+    </script>
+
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>Premium Video Player</title>
+
+
+    <!-- =========================================================
+         FONT
+    ========================================================== -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+
+    <!-- =========================================================
+         STYLE
+    ========================================================== -->
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+
+        body {
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #181818 0%,
+                    #080808 38%,
+                    #000000 100%
+                );
+
+            color: #ffffff;
+
+            font-family:
+                'Inter',
+                Arial,
+                sans-serif;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =====================================================
+           MAIN APP
+        ====================================================== */
+
+        .app {
+
+            width: 100%;
+            max-width: 760px;
+
+            margin: auto;
+
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #090909 0%,
+                    #020202 100%
+                );
+
+            box-shadow:
+                0 0 100px rgba(0,0,0,.8);
+        }
+
+
+        /* =====================================================
+           TOP BAR
+        ====================================================== */
+
+        .topbar {
+
+            height: 62px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding:
+                0 18px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 500;
+
+            background:
+                rgba(5,5,5,.88);
+
+            backdrop-filter:
+                blur(18px);
+
+            border-bottom:
+                1px solid rgba(255,255,255,.07);
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 19px;
+
+            font-weight: 800;
+        }
+
+
+        .brand-icon {
+
+            width: 36px;
+            height: 36px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff164f,
+                    #ff7438
+                );
+
+            box-shadow:
+                0 0 25px rgba(255,45,90,.35);
+        }
+
+
+        .premium-badge {
+
+            padding:
+                6px 10px;
+
+            border-radius: 30px;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: .7px;
+
+            background:
+                rgba(255,255,255,.07);
+
+            border:
+                1px solid rgba(255,255,255,.1);
+
+            color: #ff8e9f;
+        }
+
+
+        /* =====================================================
+           PLAYER SECTION
+        ====================================================== */
+
+        .player-section {
+
+            padding:
+                16px 12px 0;
+        }
+
+
+        .player {
+
+            position: relative;
+
+            width: 100%;
+
+            aspect-ratio: 16 / 9;
+
+            background: #000;
+
+            overflow: hidden;
+
+            border-radius: 18px;
+
+            border:
+                1px solid rgba(255,255,255,.12);
+
+            box-shadow:
+                0 25px 70px rgba(0,0,0,.8);
+
+            cursor: pointer;
+        }
+
+
+        /* Player glow */
+
+        .player::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: -2px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(255,30,90,.35),
+                    transparent 30%,
+                    transparent 70%,
+                    rgba(255,100,50,.25)
+                );
+
+            pointer-events: none;
+
+            z-index: 1;
+        }
+
+
+        /* =====================================================
+           THUMBNAIL
+        ====================================================== */
+
+        .player-thumbnail {
+
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            opacity: .72;
+
+            filter:
+                brightness(.55)
+                contrast(1.08);
+
+            transform: scale(1.01);
+
+            transition:
+                transform .5s ease,
+                filter .5s ease;
+        }
+
+
+        .player:hover .player-thumbnail {
+
+            transform: scale(1.04);
+
+            filter:
+                brightness(.65)
+                contrast(1.08);
+        }
+
+
+        /* =====================================================
+           PLAYER DARK GRADIENT
+        ====================================================== */
+
+        .player-gradient {
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(0,0,0,.15),
+                    transparent 30%,
+                    rgba(0,0,0,.25) 55%,
+                    rgba(0,0,0,.95) 100%
+                );
+
+            z-index: 2;
+        }
+
+
+        /* =====================================================
+           CENTER PLAY
+        ====================================================== */
+
+        .center-play {
+
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            transform:
+                translate(-50%,-50%);
+
+            width: 78px;
+            height: 78px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background:
+                rgba(255,255,255,.12);
+
+            border:
+                1px solid rgba(255,255,255,.35);
+
+            backdrop-filter:
+                blur(12px);
+
+            box-shadow:
+                0 0 0 10px rgba(255,255,255,.03),
+                0 0 45px rgba(255,30,90,.35);
+
+            z-index: 4;
+
+            transition:
+                transform .25s ease,
+                background .25s ease;
+        }
+
+
+        .center-play i {
+
+            font-size: 29px;
+
+            margin-left: 4px;
+
+            color: white;
+
+            filter:
+                drop-shadow(
+                    0 4px 10px rgba(0,0,0,.6)
+                );
+        }
+
+
+        .player:hover .center-play {
+
+            transform:
+                translate(-50%,-50%)
+                scale(1.08);
+
+            background:
+                rgba(255,40,90,.25);
+        }
+
+
+        /* =====================================================
+           PLAYER TOP INFO
+        ====================================================== */
+
+        .player-top {
+
+            position: absolute;
+
+            top: 14px;
+
+            left: 15px;
+            right: 15px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            z-index: 5;
+        }
+
+
+        .live-badge {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding:
+                7px 11px;
+
+            border-radius: 30px;
+
+            background:
+                rgba(0,0,0,.55);
+
+            backdrop-filter:
+                blur(8px);
+
+            border:
+                1px solid rgba(255,255,255,.12);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: .5px;
+        }
+
+
+        .live-dot {
+
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #ff315c;
+
+            box-shadow:
+                0 0 10px #ff315c;
+
+            animation:
+                pulse 1.2s infinite;
+        }
+
+
+        @keyframes pulse {
+
+            0%,100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: .35;
+                transform: scale(.75);
+            }
+        }
+
+
+        .quality {
+
+            padding:
+                7px 10px;
+
+            border-radius: 7px;
+
+            background:
+                rgba(0,0,0,.55);
+
+            border:
+                1px solid rgba(255,255,255,.1);
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           PLAYER BOTTOM
+        ====================================================== */
+
+        .player-bottom {
+
+            position: absolute;
+
+            left: 15px;
+            right: 15px;
+            bottom: 13px;
+
+            z-index: 5;
+        }
+
+
+        .loading-line {
+
+            height: 3px;
+
+            width: 100%;
+
+            background:
+                rgba(255,255,255,.18);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            margin-bottom: 11px;
+        }
+
+
+        .loading-line span {
+
+            display: block;
+
+            height: 100%;
+
+            width: 45%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ff174f,
+                    #ff7542
+                );
+
+            border-radius: inherit;
+
+            animation:
+                loadingMove 2.5s ease-in-out infinite;
+        }
+
+
+        @keyframes loadingMove {
+
+            0% {
+                width: 10%;
+            }
+
+            50% {
+                width: 75%;
+            }
+
+            100% {
+                width: 10%;
+            }
+        }
+
+
+        .player-controls {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            color: #eee;
+
+            font-size: 12px;
+        }
+
+
+        .controls-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+        }
+
+
+        .control-icon {
+
+            font-size: 13px;
+
+            opacity: .9;
+        }
+
+
+        /* =====================================================
+           VIDEO INFO
+        ====================================================== */
+
+        .video-info-main {
+
+            padding:
+                17px 15px 18px;
+        }
+
+
+        .video-title-main {
+
+            font-size: 20px;
+
+            line-height: 1.35;
+
+            font-weight: 800;
+
+            letter-spacing: -.3px;
+        }
+
+
+        .video-subtitle {
+
+            color: #8f8f8f;
+
+            font-size: 12px;
+
+            margin-top: 7px;
+        }
+
+
+        .watch-hint {
+
+            margin-top: 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding:
+                11px 13px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255,35,85,.08);
+
+            border:
+                1px solid rgba(255,50,100,.14);
+
+            color: #ff9caf;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        .watch-hint i {
+
+            color: #ff3c69;
+        }
+
+
+        /* =====================================================
+           SECTION TITLE
+        ====================================================== */
+
+        .section-head {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding:
+                10px 15px 14px;
+        }
+
+
+        .section-head h2 {
+
+            font-size: 17px;
+
+            font-weight: 800;
+        }
+
+
+        .section-head span {
+
+            color: #777;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           SEARCH
+        ====================================================== */
+
+        .search-wrapper {
+
+            padding:
+                0 15px 15px;
+        }
+
+
+        .search {
+
+            position: relative;
+        }
+
+
+        .search input {
+
+            width: 100%;
+
+            height: 44px;
+
+            border-radius: 13px;
+
+            border:
+                1px solid rgba(255,255,255,.08);
+
+            outline: none;
+
+            background:
+                rgba(255,255,255,.05);
+
+            color: white;
+
+            padding:
+                0 15px 0 43px;
+
+            font-size: 13px;
+        }
+
+
+        .search i {
+
+            position: absolute;
+
+            left: 16px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            color: #777;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           VIDEO GRID
+        ====================================================== */
+
+        .video-container {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 12px;
+
+            padding:
+                0 12px 30px;
+        }
+
+
+        .video-card {
+
+            position: relative;
+
+            background:
+                #0b0b0d;
+
+            border-radius: 15px;
+
+            overflow: hidden;
+
+            border:
+                1px solid rgba(255,255,255,.08);
+
+            cursor: pointer;
+
+            transition:
+                transform .2s ease,
+                border-color .2s ease;
+        }
+
+
+        .video-card:active {
+
+            transform:
+                scale(.97);
+        }
+
+
+        .video-card:hover {
+
+            border-color:
+                rgba(255,65,100,.4);
+        }
+
+
+        .thumb {
+
+            position: relative;
+
+            width: 100%;
+
+            aspect-ratio: 16 / 10;
+
+            overflow: hidden;
+
+            background: #111;
+        }
+
+
+        .thumb img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+
+            transition:
+                transform .35s ease;
+        }
+
+
+        .video-card:hover .thumb img {
+
+            transform:
+                scale(1.05);
+        }
+
+
+        .thumb-overlay {
+
+            position: absolute;
+
+            inset: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                rgba(0,0,0,.15);
+        }
+
+
+        .mini-play {
+
+            width: 43px;
+            height: 43px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background:
+                rgba(0,0,0,.65);
+
+            border:
+                1px solid rgba(255,255,255,.25);
+
+            backdrop-filter:
+                blur(8px);
+        }
+
+
+        .mini-play i {
+
+            font-size: 14px;
+
+            margin-left: 2px;
+        }
+
+
+        .card-info {
+
+            padding:
+                10px 10px 11px;
+        }
+
+
+        .card-title {
+
+            font-size: 12px;
+
+            line-height: 1.4;
+
+            font-weight: 700;
+
+            color: #e8e8e8;
+
+            min-height: 34px;
+        }
+
+
+        .watch-small {
+
+            margin-top: 8px;
+
+            width: 100%;
+
+            border: none;
+
+            border-radius: 8px;
+
+            height: 34px;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    #ff174f,
+                    #ff713d
+                );
+
+            color: white;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 5px 15px rgba(255,30,80,.18);
+        }
+
+
+        /* =====================================================
+           LOADING OVERLAY
+        ====================================================== */
+
+        .loading-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 9999;
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-direction: column;
+
+            background:
+                rgba(0,0,0,.96);
+
+            backdrop-filter:
+                blur(18px);
+        }
+
+
+        .loading-overlay.show {
+
+            display: flex;
+        }
+
+
+        .loader-ring {
+
+            width: 64px;
+            height: 64px;
+
+            border-radius: 50%;
+
+            border:
+                3px solid rgba(255,255,255,.12);
+
+            border-top-color:
+                #ff315e;
+
+            border-right-color:
+                #ff743d;
+
+            animation:
+                spin 1s linear infinite;
+        }
+
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        .loading-title {
+
+            margin-top: 20px;
+
+            font-size: 15px;
+
+            font-weight: 700;
+        }
+
+
+        .loading-sub {
+
+            margin-top: 7px;
+
+            color: #777;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           SECOND CLICK MESSAGE
+        ====================================================== */
+
+        .unlock-message {
+
+            position: fixed;
+
+            left: 50%;
+
+            bottom: 22px;
+
+            transform:
+                translateX(-50%)
+                translateY(120px);
+
+            width:
+                calc(100% - 30px);
+
+            max-width: 500px;
+
+            padding:
+                13px 15px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(17,17,17,.96);
+
+            border:
+                1px solid rgba(255,65,100,.25);
+
+            box-shadow:
+                0 15px 50px rgba(0,0,0,.6);
+
+            z-index: 10000;
+
+            opacity: 0;
+
+            transition:
+                all .35s ease;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .unlock-message.show {
+
+            opacity: 1;
+
+            transform:
+                translateX(-50%)
+                translateY(0);
+        }
+
+
+        .unlock-message i {
+
+            color: #38e47b;
+        }
+
+
+        .unlock-message-text {
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           NO RESULTS
+        ====================================================== */
+
+        .no-results {
+
+            grid-column:
+                1 / -1;
+
+            text-align: center;
+
+            padding:
+                40px 20px;
+
+            color: #666;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        footer {
+
+            text-align: center;
+
+            padding:
+                20px;
+
+            color: #555;
+
+            font-size: 10px;
+
+            border-top:
+                1px solid rgba(255,255,255,.05);
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 430px) {
+
+            .video-title-main {
+                font-size: 18px;
+            }
+
+            .center-play {
+                width: 68px;
+                height: 68px;
+            }
+
+            .center-play i {
+                font-size: 25px;
+            }
+
+            .video-container {
+                gap: 10px;
+            }
+        }
+
+
+        @media (min-width: 650px) {
+
+            .video-container {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- =====================================================
+         TOP BAR
+    ====================================================== -->
+
+    <header class="topbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                <i class="fa-solid fa-play"></i>
+            </div>
+
+            <span>Premium Video</span>
+
+        </div>
+
+
+        <div class="premium-badge">
+            PREMIUM
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         PREMIUM PLAYER
+    ====================================================== -->
+
+    <section class="player-section">
+
+        <div
+            class="player"
+            id="mainPlayer"
+            data-link="https://otieu.com/4/9429975"
+            data-title="Premium Video"
+        >
+
+
+            <!-- CHANGE THIS IMAGE IF NEEDED -->
+
+            <img
+                class="player-thumbnail"
+                id="mainThumbnail"
+                src="https://i.ibb.co.com/DPmCZLWH/IMG-20260822-221434-264.jpg"
+                alt="Premium Video"
+            >
+
+
+            <div class="player-gradient"></div>
+
+
+            <!-- TOP PLAYER -->
+
+            <div class="player-top">
+
+                <div class="live-badge">
+
+                    <span class="live-dot"></span>
+
+                    READY TO PLAY
+
+                </div>
+
+
+                <div class="quality">
+                    HD
+                </div>
+
+            </div>
+
+
+            <!-- CENTER PLAY -->
+
+            <div class="center-play">
+
+                <i class="fa-solid fa-play"></i>
+
+            </div>
+
+
+            <!-- BOTTOM PLAYER -->
+
+            <div class="player-bottom">
+
+                <div class="loading-line">
+                    <span></span>
+                </div>
+
+
+                <div class="player-controls">
+
+                    <div class="controls-left">
+
+                        <i class="fa-solid fa-play control-icon"></i>
+
+                        <span>00:00</span>
+
+                        <span>/</span>
+
+                        <span>--:--</span>
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="fa-solid fa-expand control-icon"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PLAYER INFO
+        ================================================== -->
+
+        <div class="video-info-main">
+
+            <div class="video-title-main">
+                🎬 Premium Exclusive Video
+            </div>
+
+
+            <div class="video-subtitle">
+                HD • Premium Content • Tap to watch
+            </div>
+
+
+            <div class="watch-hint">
+
+                <i class="fa-solid fa-circle-play"></i>
+
+                ভিডিওটি দেখতে Player-এর মাঝখানে ক্লিক করুন
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         VIDEO SECTION
+    ====================================================== -->
+
+    <div class="section-head">
+
+        <h2>
+            🔥 Latest Videos
+        </h2>
+
+        <span id="videoCount">
+            0 Videos
+        </span>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-wrapper">
+
+        <div class="search">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search videos..."
+            >
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         VIDEO CARDS
+    ====================================================== -->
+
+    <div
+        class="video-container"
+        id="videoContainer"
+    >
+
+        <!-- Cards JS দিয়ে তৈরি হবে -->
+
+    </div>
+
+
+
+    <footer>
+        © 2026 Premium Video • All Rights Reserved
+    </footer>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     ADS LOADING OVERLAY
+========================================================== -->
+
+<div
+    class="loading-overlay"
+    id="loadingOverlay"
+>
+
+    <div class="loader-ring"></div>
+
+    <div class="loading-title">
+        Advertisement Loading...
+    </div>
+
+    <div class="loading-sub">
+        Please wait while the advertisement is displayed
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     UNLOCK MESSAGE
+========================================================== -->
+
+<div
+    class="unlock-message"
+    id="unlockMessage"
+>
+
+    <i class="fa-solid fa-circle-check"></i>
+
+    <div class="unlock-message-text">
+
+        বিজ্ঞাপন সম্পন্ন হয়েছে।
+        <br>
+
+        ভিডিওটি খুলতে আবার ক্লিক করুন।
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+    /* =========================================================
+       ADSGRAM
+    ========================================================== */
+
+    const ADSGRAM_ZONE_ID = "int-32653";
+
+
+    /* =========================================================
+       VIDEO DATA
+    ========================================================== */
+
+    const videos = [
+
+        {
+            title: "Premium Exclusive Video 01",
+            image: "https://i.ibb.co.com/DPmCZLWH/IMG-20260822-221434-264.jpg",
+            link: "https://otieu.com/4/9429975"
+        },
+
+        {
+            title: "Premium Exclusive Video 02",
+            image: "https://i.ibb.co.com/zVWFsgbt/IMG-20260822-221433-098.jpg",
+            link: "https://otieu.com/4/9446627"
+        },
+
+        {
+            title: "Premium Exclusive Video 03",
+            image: "https://i.ibb.co.com/rKZfQYdV/IMG-20260822-221431-813.jpg",
+            link: "https://otieu.com/4/9717825"
+        },
+
+        {
+            title: "Premium Exclusive Video 04",
+            image: "https://i.ibb.co.com/YF32czR6/IMG-20260822-221430-955.jpg",
+            link: "https://otieu.com/4/9446627"
+        },
+
+        {
+            title: "Premium Exclusive Video 05",
+            image: "https://i.ibb.co.com/Gf78HQSn/IMG-20260822-221428-982.jpg",
+            link: "https://otieu.com/4/9429975"
+        },
+
+        {
+            title: "Premium Exclusive Video 06",
+            image: "https://i.ibb.co.com/Dfv9sF1p/IMG-20260822-221427-181.jpg",
+            link: "https://otieu.com/4/9717825"
+        },
+
+        {
+            title: "Premium Exclusive Video 07",
+            image: "https://i.ibb.co.com/B5KMtmnL/IMG-20260822-221428-424.jpg",
+            link: "https://otieu.com/4/9446627"
+        },
+
+        {
+            title: "Premium Exclusive Video 08",
+            image: "https://i.ibb.co.com/4RXyGPRd/IMG-20260822-221423-019.jpg",
+            link: "https://otieu.com/4/9429975"
+        },
+
+        {
+            title: "Premium Exclusive Video 09",
+            image: "https://i.ibb.co.com/cSHDRZ8T/IMG-20260822-221425-780.jpg",
+            link: "https://otieu.com/4/9717825"
+        },
+
+        {
+            title: "Premium Exclusive Video 10",
+            image: "https://i.ibb.co.com/B2dw76TG/IMG-20260822-221424-694.jpg",
+            link: "https://otieu.com/4/9446627"
+        },
+
+        {
+            title: "Premium Exclusive Video 11",
+            image: "https://i.ibb.co.com/LzC2YzCj/IMG-20260822-221426-517.jpg",
+            link: "https://otieu.com/4/9429975"
+        },
+
+        {
+            title: "Premium Exclusive Video 12",
+            image: "https://i.ibb.co.com/svR29X78/IMG-20260822-221421-884.jpg",
+            link: "https://otieu.com/4/9717825"
+        },
+
+        {
+            title: "Premium Exclusive Video 13",
+            image: "https://i.ibb.co.com/xtfCkCBQ/IMG-20260822-221420-914.jpg",
+            link: "https://otieu.com/4/9446627"
+        },
+
+        {
+            title: "Premium Exclusive Video 14",
+            image: "https://i.ibb.co.com/dwxNpZ67/IMG-20260822-221419-907.jpg",
+            link: "https://otieu.com/4/9429975"
+        },
+
+        {
+            title: "Premium Exclusive Video 15",
+            image: "https://i.ibb.co.com/4RfK33R0/IMG-20260822-221418-747.jpg",
+            link: "https://otieu.com/4/9717825"
+        },
+
+        {
+            title: "Premium Exclusive Video 16",
+            image: "https://i.ibb.co.com/KcCrW1f0/IMG-20260822-221417-726.jpg",
+            link: "https://otieu.com/4/9446627"
+        },
+
+        {
+            title: "Premium Exclusive Video 17",
+            image: "https://i.ibb.co.com/7hB4PtP/IMG-20260822-221416-975.jpg",
+            link: "https://otieu.com/4/9429975"
+        },
+
+        {
+            title: "Premium Exclusive Video 18",
+            image: "https://i.ibb.co.com/Ld662XSB/IMG-20260822-221415-134.jpg",
+            link: "https://otieu.com/4/9717825"
+        },
+
+        {
+            title: "Premium Exclusive Video 19",
+            image: "https://i.ibb.co.com/nsvTWs2N/IMG-20260822-221414-179.jpg",
+            link: "https://otieu.com/4/9446627"
+        },
+
+        {
+            title: "Premium Exclusive Video 20",
+            image: "https://i.ibb.co.com/GfDqK348/IMG-20260822-221415-742.jpg",
+            link: "https://otieu.com/4/9429975"
+        },
+
+        {
+            title: "Premium Exclusive Video 21",
+            image: "https://i.ibb.co.com/60F8JbjB/IMG-20260822-221412-750.jpg",
+            link: "https://otieu.com/4/9717825"
+        },
+
+        {
+            title: "Premium Exclusive Video 22",
+            image: "https://i.ibb.co.com/0wPrJwD/IMG-20260822-221410-885.jpg",
+            link: "https://otieu.com/4/9446627"
+        },
+
+        {
+            title: "Premium Exclusive Video 23",
+            image: "https://i.ibb.co.com/C3LsMLrw/IMG-20260822-221409-460.jpg",
+            link: "https://otieu.com/4/9429975"
+        },
+
+        {
+            title: "Premium Exclusive Video 24",
+            image: "https://i.ibb.co.com/jvmC0Y0G/IMG-20260822-221408-422.jpg",
+            link: "https://otieu.com/4/9717825"
+        },
+
+        {
+            title: "Premium Exclusive Video 25",
+            image: "https://i.ibb.co.com/4n8zDFrh/IMG-20260822-221407-542.jpg",
+            link: "https://otieu.com/4/9446627"
+        },
+
+        {
+            title: "Premium Exclusive Video 26",
+            image: "https://i.ibb.co.com/r2WQ9gb5/IMG-20260822-221406-035.jpg",
+            link: "https://otieu.com/4/9429975"
+        },
+
+        {
+            title: "Premium Exclusive Video 27",
+            image: "https://i.ibb.co.com/vCpxtd3P/IMG-20260822-221405-240.jpg",
+            link: "https://otieu.com/4/9717825"
+        },
+
+        {
+            title: "Premium Exclusive Video 28",
+            image: "https://i.ibb.co.com/7dVjKHsq/IMG-20260822-221529-119.jpg",
+            link: "https://otieu.com/4/9446627"
+        },
+
+        {
+            title: "Premium Exclusive Video 29",
+            image: "https://i.ibb.co.com/j96DYscF/IMG-20260822-221526-366.jpg",
+            link: "https://otieu.com/4/9429975"
+        },
+
+        {
+            title: "Premium Exclusive Video 30",
+            image: "https://i.ibb.co.com/21zXGV87/IMG-20260822-221527-824.jpg",
+            link: "https://otieu.com/4/9717825"
+        },
+
+        {
+            title: "Premium Exclusive Video 31",
+            image: "https://i.ibb.co.com/1Jm81ybR/IMG-20260822-221524-729.jpg",
+            link: "https://otieu.com/4/9446627"
+        },
+
+        {
+            title: "Premium Exclusive Video 32",
+            image: "https://i.ibb.co.com/whQwSH5G/IMG-20260822-221356-550.jpg",
+            link: "https://otieu.com/4/9429975"
+        },
+
+        {
+            title: "Premium Exclusive Video 33",
+            image: "https://i.ibb.co.com/hF81rPM1/IMG-20260822-221355-717.jpg",
+            link: "https://otieu.com/4/9717825"
+        },
+
+        {
+            title: "Premium Exclusive Video 34",
+            image: "https://i.ibb.co.com/KpNqswvr/IMG-20260822-221355-018.jpg",
+            link: "https://otieu.com/4/9446627"
+        },
+
+        {
+            title: "Premium Exclusive Video 35",
+            image: "https://i.ibb.co.com/Z6FWm9G5/IMG-20260822-221353-641.jpg",
+            link: "https://otieu.com/4/9429975"
+        },
+
+        {
+            title: "Premium Exclusive Video 36",
+            image: "https://i.ibb.co.com/7JbsmMsv/IMG-20260822-221352-038.jpg",
+            link: "https://otieu.com/4/9717825"
+        },
+
+        {
+            title: "Premium Exclusive Video 37",
+            image: "https://i.ibb.co.com/n8qQFFHZ/IMG-20260822-221351-349.jpg",
+            link: "https://otieu.com/4/9446627"
+        }
+
+    ];
+
+
+    /* =========================================================
+       STATE
+    ========================================================== */
+
+    let adCompleted = false;
+
+    let adRunning = false;
+
+    let selectedLink = null;
+
+    let selectedTitle = null;
+
+
+    /* =========================================================
+       ELEMENTS
+    ========================================================== */
+
+    const loadingOverlay =
+        document.getElementById("loadingOverlay");
+
+    const unlockMessage =
+        document.getElementById("unlockMessage");
+
+    const videoContainer =
+        document.getElementById("videoContainer");
+
+    const videoCount =
+        document.getElementById("videoCount");
+
+
+    /* =========================================================
+       SHOW LOADING
+    ========================================================== */
+
+    function showLoading() {
+
+        loadingOverlay.classList.add("show");
+
+    }
+
+
+    function hideLoading() {
+
+        loadingOverlay.classList.remove("show");
+
+    }
+
+
+    /* =========================================================
+       UNLOCK MESSAGE
+    ========================================================== */
+
+    function showUnlockMessage() {
+
+        unlockMessage.classList.add("show");
+
+        setTimeout(function () {
+
+            unlockMessage.classList.remove("show");
+
+        }, 5000);
+
+    }
+
+
+    /* =========================================================
+       ADSGRAM FUNCTION
+    ========================================================== */
+
+    function showAdsgram() {
+
+        return new Promise(function(resolve) {
+
+            if (
+                typeof Adsgram === "undefined" ||
+                !Adsgram.init
+            ) {
+
+                console.warn(
+                    "Adsgram SDK is not ready."
+                );
+
+                resolve(false);
+
                 return;
             }
-            isAdShowing = true;
-            const adBtn = document.getElementById('embeddedAdButton');
-            adBtn.style.opacity = '0.6';
-            adBtn.style.pointerEvents = 'none';
+
+
             try {
-                showAlert("Loading ad... Please wait.");
-                if(AdController) {
-                    await AdController.show();
-                    adsGramCount++;
-                    userData.adsGramCount = adsGramCount;
-                    userData.balance = (userData.balance || 0) + CONFIG.adReward;
-                    userData.lastAdsDate = new Date().toISOString().split('T')[0];
-                    saveUser(currentUser.id, userData);
-                    updateUI();
-                    showAlert(`🎉 +৳${CONFIG.adReward} earned! (${adsGramCount}/${CONFIG.dailyAdLimit})`);
-                } else throw new Error("AdController missing");
-            } catch(error) { showAlert("Failed to show ad. Please try again."); } 
-            finally { isAdShowing = false; adBtn.style.opacity = '1'; adBtn.style.pointerEvents = 'auto'; }
-        }
 
-        // Withdrawal logic
-        async function handleWithdraw() {
-            const amt = parseInt(document.getElementById('withdrawAmountInput').value);
-            const method = document.getElementById('withdrawMethodSelect').value;
-            const detail = document.getElementById('paymentDetailField')?.value;
-            if(!amt || amt < CONFIG.minWithdrawal) return showAlert(`Minimum withdrawal ৳${CONFIG.minWithdrawal}`);
-            if(amt > userData.balance) return showAlert("Insufficient balance");
-            if(!method || !detail) return showAlert("Fill all fields");
-            saveWithdrawal(currentUser.id, { amount: amt, method, paymentDetails: detail, status: "pending", requestedAt: new Date().toISOString() });
-            userData.balance -= amt;
-            saveUser(currentUser.id, userData);
-            updateUI();
-            loadHistory();
-            showAlert("✅ Withdrawal request submitted! Processed within 24-48h.");
-            document.getElementById('withdrawAmountInput').value = '';
-            if(document.getElementById('paymentDetailField')) document.getElementById('paymentDetailField').value = '';
-        }
+                const controller =
+                    Adsgram.init({
+                        blockId: ADSGRAM_ZONE_ID
+                    });
 
-        function loadHistory() {
-            const list = getWithdrawals(currentUser?.id);
-            const container = document.getElementById('historyList');
-            if(!list.length) { container.innerHTML = '<div class="text-center text-secondary py-4">No withdrawals yet</div>'; return; }
-            container.innerHTML = list.reverse().slice(0, 10).map(w => `
-                <div class="card p-3 flex justify-between items-center">
-                    <div>
-                        <p class="font-bold text-primary">৳${w.amount} - ${w.method}</p>
-                        <p class="text-xs text-secondary">${new Date(w.requestedAt).toLocaleDateString()}</p>
-                    </div>
-                    <span class="text-xs font-semibold ${w.status==='pending'?'text-amber-500':'text-green-500'} capitalize">${w.status}</span>
-                </div>
-            `).join('');
-        }
 
-        function updatePaymentField() {
-            const m = document.getElementById('withdrawMethodSelect').value;
-            const container = document.getElementById('dynamicPaymentField');
-            let placeholder = "Enter payment details";
-            if(m === 'Bkash') placeholder = "Bkash number";
-            else if(m === 'Nagad') placeholder = "Nagad number";
-            else if(m === 'Rocket') placeholder = "Rocket number";
-            else if(m === 'Bank') placeholder = "Bank account details";
-            container.innerHTML = `<input id="paymentDetailField" class="input-modern" placeholder="${placeholder}">`;
-        }
+                controller
+                    .show()
 
-        function loadNotif() {
-            const list = [
-                {title: "🎉 Welcome to Apple Y!", msg: "Watch ads using the button on Home page and earn instantly. Each ad = ৳10!"},
-                {title: "📢 Payment Update", msg: "Minimum withdrawal is 2000 BDT. Keep earning and reach your goal!"},
-                {title: "⭐ New Feature", msg: "Level system added! Earn more to level up and unlock special rewards."},
-                {title: "🔒 Security Alert", msg: "Your data is safe and encrypted. Never share your password with anyone."}
-            ];
-            const container = document.getElementById('notifList');
-            container.innerHTML = list.map(n => `
-                <div class="card p-4">
-                    <h3 class="font-bold text-primary">${n.title}</h3>
-                    <p class="text-sm text-secondary">${n.msg}</p>
-                    <span class="text-[10px] text-slate-400">Just now</span>
-                </div>
-            `).join('');
-        }
+                    .then(function() {
 
-        function sendBonusAll() {
-            const amt = parseInt(document.getElementById('bonusAmountInput').value);
-            if(!amt) return showAlert("Enter amount");
-            let count = 0;
-            for(let i=0; i<localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if(key?.startsWith('user_')) {
-                    const u = JSON.parse(localStorage.getItem(key));
-                    u.balance = (u.balance || 0) + amt;
-                    localStorage.setItem(key, JSON.stringify(u));
-                    count++;
-                }
+                        console.log(
+                            "Adsgram completed"
+                        );
+
+                        resolve(true);
+
+                    })
+
+                    .catch(function(error) {
+
+                        console.error(
+                            "Adsgram error:",
+                            error
+                        );
+
+                        resolve(false);
+
+                    });
+
             }
-            if(userData) { userData.balance += amt; saveUser(currentUser.id, userData); updateUI(); }
-            showAlert(`✅ Bonus ৳${amt} sent to ${count} users.`);
-            document.getElementById('bonusAmountInput').value = '';
-        }
 
-        async function sendReport() {
-            let totalUsers = 0;
-            for(let i=0; i<localStorage.length; i++) if(localStorage.key(i)?.startsWith('user_')) totalUsers++;
-            const msg = `📊 Apple Y Report\n👥 Total users: ${totalUsers}\n📺 Ads watched today: ${adsGramCount}/${CONFIG.dailyAdLimit}\n💰 User balance: ৳${userData?.balance || 0}\n📈 Level: ${document.getElementById('profileLevel').innerText}`;
-            try { 
-                await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/sendMessage`, { 
-                    method:'POST', 
-                    headers:{'Content-Type':'application/json'}, 
-                    body: JSON.stringify({ chat_id: CONFIG.reportChannelId, text: msg }) 
-                }); 
-                showAlert("📤 Report sent successfully!"); 
-            } catch(e) { showAlert("Report error"); }
-        }
+            catch(error) {
 
-        function refreshUsers() {
-            let count = 0;
-            for(let i=0; i<localStorage.length; i++) {
-                if(localStorage.key(i)?.startsWith('user_')) count++;
+                console.error(
+                    "Adsgram initialization error:",
+                    error
+                );
+
+                resolve(false);
+
             }
-            document.getElementById('totalUsersCount').innerText = count;
-            showAlert(`👥 Total users: ${count}`);
-        }
 
-        function navigateTo(page) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(`${page}Page`).classList.add('active');
-            if(page === 'wallet') loadHistory();
-            if(page === 'notifications') loadNotif();
-            if(page === 'admin') {
-                document.getElementById('zoneStatsMini').innerHTML = `
-                    <div>📺 Ads watched: ${adsGramCount}/${CONFIG.dailyAdLimit}</div>
-                    <div>💰 Total earnings: ৳${(adsGramCount * CONFIG.adReward)}</div>
-                    <div>📊 Level: ${document.getElementById('profileLevel').innerText}</div>
-                `;
-                refreshUsers();
-            }
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-            const navMap = { home: 'home', wallet: 'wallet', profile: 'profile' };
-            if(navMap[page]) document.querySelector(`.nav-link[data-page="${navMap[page]}"]`)?.classList.add('active');
-        }
-        window.navigateTo = navigateTo;
-
-        function showAlert(msg) { 
-            const el = document.getElementById('customAlert'); 
-            document.getElementById('alertMsg').innerText = msg; 
-            el.classList.remove('hidden'); 
-            document.getElementById('alertCloseBtn').onclick = () => el.classList.add('hidden'); 
-        }
-
-        function initDark() {
-            const isDark = localStorage.getItem('theme') === 'dark';
-            if(isDark) document.body.classList.add('dark');
-            document.getElementById('darkModeToggle').onclick = () => {
-                document.body.classList.toggle('dark');
-                localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-                const icon = document.getElementById('darkIcon');
-                icon.className = document.body.classList.contains('dark') ? 'fas fa-sun' : 'fas fa-moon';
-            };
-        }
-
-        function startApp() {
-            tg.ready(); tg.expand();
-            const u = tg.initDataUnsafe.user;
-            if(!u) { showAlert("Please open inside Telegram"); return; }
-            currentUser = { id: u.id.toString(), firstName: u.first_name || '', username: u.username || '', photo_url: u.photo_url };
-            let stored = loadUser(currentUser.id);
-            const today = new Date().toISOString().split('T')[0];
-            if(!stored) { 
-                stored = { 
-                    uid: currentUser.id, 
-                    name: currentUser.firstName, 
-                    username: currentUser.username, 
-                    balance: 0, 
-                    adsGramCount: 0, 
-                    lastAdsDate: today, 
-                    joinedVia: 'Telegram',
-                    createdAt: new Date().toISOString()
-                }; 
-                saveUser(currentUser.id, stored); 
-            }
-            userData = stored;
-            if(userData.lastAdsDate !== today) { 
-                userData.adsGramCount = 0; 
-                userData.lastAdsDate = today; 
-                saveUser(currentUser.id, userData); 
-            }
-            adsGramCount = userData.adsGramCount || 0;
-            updateUI();
-            if(currentUser.id === CONFIG.adminId) document.getElementById('adminPanelLink').classList.remove('hidden');
-            loadNotif();
-        }
-
-        // Event Listeners
-        document.getElementById('homeWithdrawBtn').onclick = () => navigateTo('wallet');
-        document.getElementById('withdrawRequestBtn').onclick = handleWithdraw;
-        document.getElementById('withdrawMethodSelect').onchange = updatePaymentField;
-        document.getElementById('sendBonusAllBtn').onclick = sendBonusAll;
-        document.getElementById('manualReportBtn').onclick = sendReport;
-        document.getElementById('bellBtn').onclick = () => navigateTo('notifications');
-        document.getElementById('supportFab').onclick = () => tg.openLink("https://t.me/smartmoneypro_bot");
-        document.getElementById('embeddedAdButton').onclick = claimAdReward;
-        document.getElementById('refreshUsersBtn').onclick = refreshUsers;
-        
-        document.querySelectorAll('.nav-link').forEach(link => { 
-            link.onclick = (e) => { 
-                e.preventDefault(); 
-                navigateTo(link.dataset.page); 
-            }; 
         });
-        
-        initDark();
-        initAdsGram();
-        startApp();
-    </script>
+
+    }
+
+
+    /* =========================================================
+       FIRST CLICK
+       ADS SHOW
+    ========================================================== */
+
+    async function firstClick(link, title) {
+
+        if (adRunning) return;
+
+
+        selectedLink = link;
+
+        selectedTitle = title;
+
+
+        adRunning = true;
+
+
+        showLoading();
+
+
+        const result =
+            await showAdsgram();
+
+
+        hideLoading();
+
+
+        adRunning = false;
+
+
+        /*
+         * গুরুত্বপূর্ণ:
+         *
+         * Ad শেষ হওয়ার পর এখানে redirect হবে না।
+         *
+         * ইউজারকে দ্বিতীয়বার click করতে হবে।
+         */
+
+
+        if (result) {
+
+            adCompleted = true;
+
+            showUnlockMessage();
+
+        }
+
+        else {
+
+            /*
+             * Adsgram ad না দেখালে
+             * flow reset থাকবে।
+             */
+
+            adCompleted = false;
+
+            alert(
+                "Advertisement এখন লোড করা যাচ্ছে না। আবার চেষ্টা করুন।"
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       SECOND CLICK
+       DIRECT REDIRECT
+    ========================================================== */
+
+    function secondClick(link, title) {
+
+        if (!adCompleted) {
+
+            firstClick(link, title);
+
+            return;
+
+        }
+
+
+        /*
+         * Ad already completed
+         * তাই দ্বিতীয় click-এ redirect
+         */
+
+        adCompleted = false;
+
+
+        if (link) {
+
+            window.location.href = link;
+
+        }
+
+    }
+
+
+    /* =========================================================
+       HANDLE CLICK
+    ========================================================== */
+
+    function handleVideoClick(link, title) {
+
+        if (!link) return;
+
+
+        if (adCompleted) {
+
+            secondClick(link, title);
+
+        }
+
+        else {
+
+            firstClick(link, title);
+
+        }
+
+    }
+
+
+    /* =========================================================
+       MAIN PLAYER
+    ========================================================== */
+
+    const mainPlayer =
+        document.getElementById("mainPlayer");
+
+
+    mainPlayer.addEventListener(
+        "click",
+        function() {
+
+            const link =
+                mainPlayer.dataset.link;
+
+            const title =
+                mainPlayer.dataset.title;
+
+
+            handleVideoClick(
+                link,
+                title
+            );
+
+        }
+    );
+
+
+    /* =========================================================
+       BUILD VIDEO CARDS
+    ========================================================== */
+
+    function buildVideos(list) {
+
+        videoContainer.innerHTML = "";
+
+
+        videoCount.textContent =
+            list.length + " Videos";
+
+
+        if (list.length === 0) {
+
+            videoContainer.innerHTML = `
+
+                <div class="no-results">
+
+                    <i
+                        class="fa-solid fa-video-slash"
+                        style="
+                            font-size:36px;
+                            margin-bottom:12px;
+                        "
+                    ></i>
+
+                    <p>
+                        কোনো ভিডিও পাওয়া যায়নি
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        list.forEach(function(video) {
+
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "video-card";
+
+
+            card.dataset.title =
+                video.title.toLowerCase();
+
+
+            card.innerHTML = `
+
+                <div class="thumb">
+
+                    <img
+                        src="${video.image}"
+                        alt="${video.title}"
+                        loading="lazy"
+                    >
+
+                    <div class="thumb-overlay">
+
+                        <div class="mini-play">
+
+                            <i class="fa-solid fa-play"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-info">
+
+                    <div class="card-title">
+                        ${video.title}
+                    </div>
+
+                    <button class="watch-small">
+
+                        <i class="fa-solid fa-play"></i>
+
+                        WATCH
+
+                    </button>
+
+                </div>
+
+            `;
+
+
+            /*
+             * পুরো card click
+             */
+
+            card.addEventListener(
+                "click",
+                function() {
+
+                    handleVideoClick(
+                        video.link,
+                        video.title
+                    );
+
+                }
+            );
+
+
+            videoContainer.appendChild(card);
+
+        });
+
+    }
+
+
+    /* =========================================================
+       SEARCH
+    ========================================================== */
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+
+    searchInput.addEventListener(
+        "input",
+        function() {
+
+            const keyword =
+                this.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const filtered =
+                videos.filter(function(video) {
+
+                    return video.title
+                        .toLowerCase()
+                        .includes(keyword);
+
+                });
+
+
+            buildVideos(filtered);
+
+        }
+    );
+
+
+    /* =========================================================
+       INITIALIZE
+    ========================================================== */
+
+    buildVideos(videos);
+
+
+    console.log(
+        "Premium Video Player loaded."
+    );
+
+</script>
+
+
 </body>
 </html>
+            transition:
+                all .35s ease;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .unl
