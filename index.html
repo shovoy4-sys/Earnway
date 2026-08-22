@@ -12,31 +12,6 @@
          আগের সিস্টেম রাখা হয়েছে
     ========================================================== -->
 
-    <script>
-        window.addEventListener("load", function () {
-
-            setTimeout(function () {
-
-                if (typeof Adsgram !== "undefined" && Adsgram.init) {
-
-                    try {
-
-                        window.Adsgram
-                            .init({ blockId: "int-32653" })
-                            .show()
-                            .catch(function (error) {
-                                console.log("Auto Adsgram error:", error);
-                            });
-
-                    } catch (error) {
-                        console.log("Adsgram initialization error:", error);
-                    }
-
-                }
-
-            }, 800);
-        });
-    </script>
 
 
     <!-- AUTO REDIRECT -->
@@ -46,7 +21,7 @@
             window.location.href =
                 "https://t.me/komolalebobot?startapp";
 
-        }, 8000);
+        },1000);
     </script>
 
 
